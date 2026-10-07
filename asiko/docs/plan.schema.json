@@ -1,0 +1,2806 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "asiko.plan/1",
+ "type": "object",
+ "additionalProperties": false,
+ "required": [
+  "schema",
+  "base_revision",
+  "kind",
+  "operations"
+ ],
+ "properties": {
+  "schema": {
+   "const": "asiko.plan/1"
+  },
+  "base_revision": {
+   "type": "integer",
+   "minimum": 0
+  },
+  "origin": {
+   "enum": [
+    "local",
+    "llm",
+    "ui"
+   ]
+  },
+  "kind": {
+   "enum": [
+    "edit",
+    "proposal",
+    "question",
+    "info",
+    "undo",
+    "redo"
+   ]
+  },
+  "artistic": {
+   "type": "boolean"
+  },
+  "text": {
+   "type": "string"
+  },
+  "summary": {
+   "type": "string"
+  },
+  "message": {
+   "type": "string"
+  },
+  "question": {
+   "type": "object",
+   "properties": {
+    "text": {
+     "type": "string"
+    },
+    "options": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "label": {
+        "type": "string"
+       },
+       "plan": {
+        "type": "object"
+       }
+      }
+     }
+    }
+   }
+  },
+  "operations": {
+   "type": "array",
+   "maxItems": 64,
+   "items": {
+    "anyOf": [
+     {
+      "type": "object",
+      "description": "Создать переход между двумя состояниями звучания (в сцене ↔ закадровый) на дорожке",
+      "properties": {
+       "op": {
+        "const": "space.create"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "track_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "track_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "from_preset": {
+          "type": "string",
+          "description": "ключ пресета начального состояния"
+         },
+         "to_preset": {
+          "type": "string",
+          "description": "ключ пресета конечного состояния"
+         },
+         "from_values": {
+          "type": "object",
+          "properties": {
+           "gain_db": {
+            "type": "number",
+            "minimum": -60.0,
+            "maximum": 12.0
+           },
+           "pan": {
+            "type": "number",
+            "minimum": -1.0,
+            "maximum": 1.0
+           },
+           "hp_hz": {
+            "type": "number",
+            "minimum": 20.0,
+            "maximum": 4000.0
+           },
+           "lp_hz": {
+            "type": "number",
+            "minimum": 200.0,
+            "maximum": 20000.0
+           },
+           "width": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 2.0
+           },
+           "color_mix": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+           },
+           "direct_db": {
+            "type": "number",
+            "minimum": -60.0,
+            "maximum": 6.0
+           },
+           "reverb_db": {
+            "type": "number",
+            "minimum": -80.0,
+            "maximum": 6.0
+           }
+          },
+          "additionalProperties": false
+         },
+         "to_values": {
+          "type": "object",
+          "properties": {
+           "gain_db": {
+            "type": "number",
+            "minimum": -60.0,
+            "maximum": 12.0
+           },
+           "pan": {
+            "type": "number",
+            "minimum": -1.0,
+            "maximum": 1.0
+           },
+           "hp_hz": {
+            "type": "number",
+            "minimum": 20.0,
+            "maximum": 4000.0
+           },
+           "lp_hz": {
+            "type": "number",
+            "minimum": 200.0,
+            "maximum": 20000.0
+           },
+           "width": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 2.0
+           },
+           "color_mix": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+           },
+           "direct_db": {
+            "type": "number",
+            "minimum": -60.0,
+            "maximum": 6.0
+           },
+           "reverb_db": {
+            "type": "number",
+            "minimum": -80.0,
+            "maximum": 6.0
+           }
+          },
+          "additionalProperties": false
+         },
+         "from_room": {
+          "enum": [
+           "none",
+           "small_room",
+           "room",
+           "hall"
+          ]
+         },
+         "to_room": {
+          "enum": [
+           "none",
+           "small_room",
+           "room",
+           "hall"
+          ]
+         },
+         "curves": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "gain_db": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "start": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "end": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "shape": {
+              "enum": [
+               "linear",
+               "smooth",
+               "ease_in",
+               "ease_out"
+              ]
+             }
+            }
+           },
+           "pan": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "start": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "end": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "shape": {
+              "enum": [
+               "linear",
+               "smooth",
+               "ease_in",
+               "ease_out"
+              ]
+             }
+            }
+           },
+           "hp_hz": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "start": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "end": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "shape": {
+              "enum": [
+               "linear",
+               "smooth",
+               "ease_in",
+               "ease_out"
+              ]
+             }
+            }
+           },
+           "lp_hz": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "start": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "end": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "shape": {
+              "enum": [
+               "linear",
+               "smooth",
+               "ease_in",
+               "ease_out"
+              ]
+             }
+            }
+           },
+           "width": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "start": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "end": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "shape": {
+              "enum": [
+               "linear",
+               "smooth",
+               "ease_in",
+               "ease_out"
+              ]
+             }
+            }
+           },
+           "color_mix": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "start": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "end": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "shape": {
+              "enum": [
+               "linear",
+               "smooth",
+               "ease_in",
+               "ease_out"
+              ]
+             }
+            }
+           },
+           "direct_db": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "start": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "end": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "shape": {
+              "enum": [
+               "linear",
+               "smooth",
+               "ease_in",
+               "ease_out"
+              ]
+             }
+            }
+           },
+           "reverb_db": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "start": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "end": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+             },
+             "shape": {
+              "enum": [
+               "linear",
+               "smooth",
+               "ease_in",
+               "ease_out"
+              ]
+             }
+            }
+           }
+          }
+         },
+         "filter_slope": {
+          "type": "integer",
+          "enum": [
+           12,
+           24
+          ]
+         },
+         "name": {
+          "type": "string"
+         }
+        },
+        "required": []
+       },
+       "time": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "coord": {
+          "enum": [
+           "timeline"
+          ],
+          "description": "система координат времени"
+         },
+         "unit": {
+          "enum": [
+           "s",
+           "fraction"
+          ],
+          "description": "единицы: s — секунды, fraction — доля 0..1"
+         },
+         "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "end": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         }
+        },
+        "required": [
+         "coord",
+         "start",
+         "end"
+        ]
+       },
+       "constraints": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "protect_after",
+            "protect_range"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target",
+       "time"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Изменить начало/конец перехода (абсолютно или сдвигом)",
+      "properties": {
+       "op": {
+        "const": "space.set_timing"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "time": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "coord": {
+          "enum": [
+           "timeline",
+           "relative"
+          ],
+          "description": "система координат времени"
+         },
+         "unit": {
+          "enum": [
+           "s",
+           "fraction"
+          ],
+          "description": "единицы: s — секунды, fraction — доля 0..1"
+         },
+         "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "end": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "start_delta": {
+          "type": "number",
+          "minimum": -36000.0,
+          "maximum": 36000.0
+         },
+         "end_delta": {
+          "type": "number",
+          "minimum": -36000.0,
+          "maximum": 36000.0
+         }
+        },
+        "required": [
+         "coord"
+        ]
+       },
+       "constraints": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "protect_after",
+            "protect_range"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target",
+       "time"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Изменить, когда и как меняются параметры внутри перехода",
+      "properties": {
+       "op": {
+        "const": "space.set_curve"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "params": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          }
+         },
+         "group": {
+          "enum": [
+           "filter",
+           "color",
+           "width",
+           "pan",
+           "room",
+           "level",
+           "direct"
+          ]
+         },
+         "shape": {
+          "enum": [
+           "linear",
+           "smooth",
+           "ease_in",
+           "ease_out"
+          ]
+         }
+        },
+        "required": []
+       },
+       "time": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "coord": {
+          "enum": [
+           "transition",
+           "transition_fraction",
+           "transition_end",
+           "timeline"
+          ],
+          "description": "система координат времени"
+         },
+         "unit": {
+          "enum": [
+           "s",
+           "fraction"
+          ],
+          "description": "единицы: s — секунды, fraction — доля 0..1"
+         },
+         "start": {
+          "type": "number",
+          "minimum": -36000.0,
+          "maximum": 36000.0
+         },
+         "end": {
+          "type": "number",
+          "minimum": -36000.0,
+          "maximum": 36000.0
+         }
+        },
+        "required": [
+         "coord"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Изменить начальное (from) или конечное (to) состояние перехода",
+      "properties": {
+       "op": {
+        "const": "space.set_state"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "state": {
+          "enum": [
+           "from",
+           "to"
+          ]
+         },
+         "preset": {
+          "type": "string"
+         },
+         "values": {
+          "type": "object",
+          "properties": {
+           "gain_db": {
+            "type": "number",
+            "minimum": -60.0,
+            "maximum": 12.0
+           },
+           "pan": {
+            "type": "number",
+            "minimum": -1.0,
+            "maximum": 1.0
+           },
+           "hp_hz": {
+            "type": "number",
+            "minimum": 20.0,
+            "maximum": 4000.0
+           },
+           "lp_hz": {
+            "type": "number",
+            "minimum": 200.0,
+            "maximum": 20000.0
+           },
+           "width": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 2.0
+           },
+           "color_mix": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+           },
+           "direct_db": {
+            "type": "number",
+            "minimum": -60.0,
+            "maximum": 6.0
+           },
+           "reverb_db": {
+            "type": "number",
+            "minimum": -80.0,
+            "maximum": 6.0
+           }
+          },
+          "additionalProperties": false
+         },
+         "room": {
+          "enum": [
+           "none",
+           "small_room",
+           "room",
+           "hall"
+          ]
+         }
+        },
+        "required": [
+         "state"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Крутизна фильтров перехода",
+      "properties": {
+       "op": {
+        "const": "space.set_slope"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "filter_slope": {
+          "type": "integer",
+          "enum": [
+           12,
+           24
+          ]
+         }
+        },
+        "required": [
+         "filter_slope"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Удалить переход",
+      "properties": {
+       "op": {
+        "const": "space.delete"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Зафиксировать/разблокировать отдельные параметры перехода",
+      "properties": {
+       "op": {
+        "const": "transition.lock_params"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "params": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          }
+         },
+         "locked": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "params",
+         "locked"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Утвердить (заблокировать) переход или снять утверждение",
+      "properties": {
+       "op": {
+        "const": "transition.approve"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "approved": {
+          "type": "boolean"
+         }
+        },
+        "required": [
+         "approved"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Создать переход между двумя музыкальными клипами A → B с вариантами",
+      "properties": {
+       "op": {
+        "const": "music.create"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "clip_a_id": {
+          "type": "string"
+         },
+         "clip_b_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "clip_a_id",
+         "clip_b_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "b_on_downbeat": {
+          "type": "boolean"
+         },
+         "keep_a_tail": {
+          "type": "boolean"
+         },
+         "exact": {
+          "type": "boolean"
+         },
+         "overlap_filter": {
+          "enum": [
+           "none",
+           "hp_a",
+           "lp_a"
+          ]
+         },
+         "select": {
+          "enum": [
+           "short",
+           "long",
+           "phrase"
+          ]
+         },
+         "name": {
+          "type": "string"
+         }
+        },
+        "required": []
+       },
+       "time": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "coord": {
+          "enum": [
+           "timeline"
+          ],
+          "description": "система координат времени"
+         },
+         "unit": {
+          "enum": [
+           "s",
+           "fraction"
+          ],
+          "description": "единицы: s — секунды, fraction — доля 0..1"
+         },
+         "at": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0,
+          "description": "желаемый момент перехода"
+         }
+        },
+        "required": [
+         "coord",
+         "at"
+        ]
+       },
+       "constraints": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "keep_tempo",
+            "keep_pitch"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target",
+       "time"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Выбрать вариант перехода A → B",
+      "properties": {
+       "op": {
+        "const": "music.select_variant"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "variant": {
+          "type": "string",
+          "description": "short|long|phrase или id варианта"
+         }
+        },
+        "required": [
+         "variant"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Ручная правка активных параметров перехода A → B",
+      "properties": {
+       "op": {
+        "const": "music.set"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "switch_time": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "b_entry_src": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "a_fade_start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "a_fade_len": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 120
+         },
+         "b_fade_start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "b_fade_len": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 120
+         },
+         "curve": {
+          "enum": [
+           "equal_power",
+           "linear"
+          ]
+         },
+         "a_tail": {
+          "enum": [
+           "source",
+           "cut",
+           "effect"
+          ]
+         },
+         "overlap_filter": {
+          "enum": [
+           "none",
+           "hp_a",
+           "lp_a"
+          ]
+         },
+         "shift": {
+          "type": "number",
+          "minimum": -600,
+          "maximum": 600,
+          "description": "сдвиг всего перехода (с)"
+         },
+         "extend": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 120,
+          "description": "удлинение наложения (с)"
+         },
+         "b_entry_shift": {
+          "type": "number",
+          "minimum": -600,
+          "maximum": 600,
+          "description": "сдвиг точки входа B в исходнике (с)"
+         },
+         "b_entry_shift_beats": {
+          "type": "number",
+          "minimum": -64,
+          "maximum": 64,
+          "description": "сдвиг точки входа B в долях"
+         }
+        },
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Удалить переход A → B (клипы возвращаются на места)",
+      "properties": {
+       "op": {
+        "const": "music.delete"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "transition_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "transition_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Добавить дорожку",
+      "properties": {
+       "op": {
+        "const": "track.add"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "name": {
+          "type": "string"
+         }
+        },
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Изменить дорожку: громкость, mute, solo, имя",
+      "properties": {
+       "op": {
+        "const": "track.set"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "track_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "track_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "gain_db": {
+          "type": "number",
+          "minimum": -60,
+          "maximum": 12
+         },
+         "delta_db": {
+          "type": "number",
+          "minimum": -72,
+          "maximum": 72
+         },
+         "mute": {
+          "type": "boolean"
+         },
+         "solo": {
+          "type": "boolean"
+         },
+         "name": {
+          "type": "string"
+         }
+        },
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Удалить дорожку вместе с клипами",
+      "properties": {
+       "op": {
+        "const": "track.delete"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "track_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "track_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Поместить импортированный исходник на дорожку",
+      "properties": {
+       "op": {
+        "const": "clip.add"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "source_id": {
+          "type": "string"
+         },
+         "track_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "source_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "src_in": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "src_out": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "name": {
+          "type": "string"
+         }
+        },
+        "required": []
+       },
+       "time": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "coord": {
+          "enum": [
+           "timeline"
+          ],
+          "description": "система координат времени"
+         },
+         "unit": {
+          "enum": [
+           "s",
+           "fraction"
+          ],
+          "description": "единицы: s — секунды, fraction — доля 0..1"
+         },
+         "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         }
+        },
+        "required": [
+         "coord"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Переместить клип (связанные переходы переносятся вместе с ним)",
+      "properties": {
+       "op": {
+        "const": "clip.move"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "clip_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "clip_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "track_id": {
+          "type": "string"
+         }
+        },
+        "required": []
+       },
+       "time": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "coord": {
+          "enum": [
+           "timeline",
+           "relative"
+          ],
+          "description": "система координат времени"
+         },
+         "unit": {
+          "enum": [
+           "s",
+           "fraction"
+          ],
+          "description": "единицы: s — секунды, fraction — доля 0..1"
+         },
+         "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "delta": {
+          "type": "number",
+          "minimum": -36000.0,
+          "maximum": 36000.0
+         }
+        },
+        "required": [
+         "coord"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Изменить клип: усиление, фейды, границы, блокировку",
+      "properties": {
+       "op": {
+        "const": "clip.set"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "clip_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "clip_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "gain_db": {
+          "type": "number",
+          "minimum": -60,
+          "maximum": 24
+         },
+         "delta_db": {
+          "type": "number",
+          "minimum": -72,
+          "maximum": 72
+         },
+         "fade_in": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60
+         },
+         "fade_out": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 60
+         },
+         "fade_shape": {
+          "enum": [
+           "smooth",
+           "linear",
+           "equal_power"
+          ]
+         },
+         "src_in": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "src_out": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "locked": {
+          "type": "boolean"
+         },
+         "name": {
+          "type": "string"
+         }
+        },
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Удалить клип с дорожки",
+      "properties": {
+       "op": {
+        "const": "clip.delete"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "clip_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "clip_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Ограничения проекта: не менять темп / высоту тона",
+      "properties": {
+       "op": {
+        "const": "constraint.set"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "keep_tempo": {
+          "type": "boolean"
+         },
+         "keep_pitch": {
+          "type": "boolean"
+         }
+        },
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Защитить временной участок от изменения настроек",
+      "properties": {
+       "op": {
+        "const": "protect.add"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "end": {
+          "type": [
+           "number",
+           "null"
+          ],
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "track_id": {
+          "type": [
+           "string",
+           "null"
+          ]
+         },
+         "note": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "start"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Снять защиту участка",
+      "properties": {
+       "op": {
+        "const": "protect.remove"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "protection_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "protection_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Задать сетку долей исходника (ручная разметка или результат анализа)",
+      "properties": {
+       "op": {
+        "const": "beats.set"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "source_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "source_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "grid": {
+          "type": "object"
+         },
+         "bpm": {
+          "type": "number",
+          "minimum": 20,
+          "maximum": 400
+         },
+         "first_downbeat": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "beats_per_bar": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 16
+         },
+         "phrase_bars": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+         }
+        },
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Сдвинуть сетку долей исходника",
+      "properties": {
+       "op": {
+        "const": "beats.shift"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "source_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "source_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "delta": {
+          "type": "number",
+          "minimum": -60,
+          "maximum": 60
+         }
+        },
+        "required": [
+         "delta"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Задать границы музыкальных фраз (время исходника)",
+      "properties": {
+       "op": {
+        "const": "phrases.set"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "source_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "source_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "phrases": {
+          "type": "array",
+          "items": {
+           "type": "number"
+          }
+         }
+        },
+        "required": [
+         "phrases"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Зафиксировать участок в отрендеренный PCM",
+      "properties": {
+       "op": {
+        "const": "freeze.add"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "end": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 36000.0
+         },
+         "file": {
+          "type": "string"
+         },
+         "sha256": {
+          "type": "string"
+         },
+         "sample_rate": {
+          "type": "integer",
+          "minimum": 8000,
+          "maximum": 384000
+         },
+         "margin": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+         },
+         "note": {
+          "type": "string"
+         },
+         "id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "start",
+         "end",
+         "file",
+         "sha256",
+         "sample_rate"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Снять фиксацию PCM",
+      "properties": {
+       "op": {
+        "const": "freeze.remove"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "frozen_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "frozen_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Подключить видео для просмотра",
+      "properties": {
+       "op": {
+        "const": "video.set"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "path": {
+          "type": "string"
+         },
+         "offset": {
+          "type": "number",
+          "minimum": -3600,
+          "maximum": 3600
+         },
+         "name": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "path"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Смещение видео на шкале",
+      "properties": {
+       "op": {
+        "const": "video.offset"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "offset": {
+          "type": "number",
+          "minimum": -3600,
+          "maximum": 3600
+         }
+        },
+        "required": [
+         "offset"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Отключить видео",
+      "properties": {
+       "op": {
+        "const": "video.clear"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Переименовать проект",
+      "properties": {
+       "op": {
+        "const": "project.rename"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "name": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "name"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Добавить исходник в библиотеку (из интерфейса)",
+      "properties": {
+       "op": {
+        "const": "source.add"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "source": {
+          "type": "object"
+         }
+        },
+        "required": [
+         "source"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Обновить путь к перемещённому исходнику",
+      "properties": {
+       "op": {
+        "const": "source.relink"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "source_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "source_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "path": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "path"
+        ]
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     },
+     {
+      "type": "object",
+      "description": "Удалить неиспользуемый исходник из библиотеки",
+      "properties": {
+       "op": {
+        "const": "source.remove"
+       },
+       "target": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "source_id": {
+          "type": "string"
+         }
+        },
+        "required": [
+         "source_id"
+        ]
+       },
+       "params": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {},
+        "required": []
+       },
+       "preconditions": {
+        "type": "array",
+        "items": {
+         "type": "object",
+         "properties": {
+          "kind": {
+           "enum": [
+            "exists",
+            "not_approved",
+            "revision",
+            "duration_at_least"
+           ]
+          }
+         },
+         "required": [
+          "kind"
+         ]
+        }
+       }
+      },
+      "required": [
+       "op",
+       "target"
+      ],
+      "additionalProperties": false
+     }
+    ]
+   }
+  }
+ }
+}
